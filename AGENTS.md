@@ -74,7 +74,7 @@ Exemple :
 
 ## Bonnes pratiques
 - Ne pas mélanger logique de navigation, logique de validation et logique métier dans le test
-- Laisser Playwright fermer automatiquement les pages, contextes et navigateurs en fin de test ; ne pas appeler `browser.close()` dans les tests
+- Fermer explicitement la page à la fin du test avec un hook `afterEach` pour que la fenêtre se ferme aussi après un échec ; laisser Playwright fermer le contexte et le navigateur à la fin de leur cycle de vie, et ne pas appeler `browser.close()` dans les tests, car le navigateur est partagé entre les tests du worker
 - Créer un page object dédié si une section possède des sélecteurs propres
 - Reutiliser les workflows pour les scénarios multi-pages
 - Quand un test dépend d’un compte, utiliser les credentials de fixture au lieu d’écrire des valeurs dupliquées

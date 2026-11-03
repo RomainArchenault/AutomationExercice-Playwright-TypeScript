@@ -22,3 +22,8 @@ test('test-initial - navigation principale', { retries: 2 }, async ({ consentPag
   await navigationPage.openContactUs();
   await navigationPage.openAutomationWebsite();
 });
+
+// Fermer la page, même si le test échoue.
+test.afterEach(async ({ page }) => {
+  await page.close();
+});
