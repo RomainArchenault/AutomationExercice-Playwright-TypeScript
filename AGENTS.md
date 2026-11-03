@@ -5,8 +5,8 @@ Ce dépôt est un projet Playwright de tests E2E pour un site e-commerce. L’ob
 
 ## Structure principale
 - `tests/` : fichiers de tests Playwright (`*.spec.ts`)
-- `support/fixtures.ts` : fixtures Playwright personnalisées
-- `support/pages-objects/` : classes de page object
+- `support/fixtures.ts` : fixture Playwright personnalisée qui exporte `test` et expose les page objects
+- `support/pages-objects/` : classes de page object, nommées en kebab-case
 - `support/workflows/` : workflows multi-étapes regroupant plusieurs pages
 - `playwright.config.ts` : configuration Playwright (baseURL, browsers, locale FR)
 - `package.json` : scripts et dépendances
@@ -30,6 +30,7 @@ test('login ok', async ({ loginPage, productPage }) => {
 ### 2. Préférer les page objects
 Les interactions utilisateur doivent être encapsulées dans des méthodes de page object.
 - Les sélecteurs doivent rester dans les classes page object
+- Les dialogues de consentement peuvent être dans une iframe : les rechercher via les frames dans le page object concerné, jamais directement dans le test
 - Les tests doivent rester lisibles, pas techniques
 - Une ligne = une action ou une vérification, quand c’est possible
 
@@ -58,6 +59,7 @@ Exemple :
 - Expliquer le but d’un bloc sans répéter le code
 - Préférer un commentaire clair à une explication trop longue
 - Les commentaires doivent aider la lecture, pas la surcharger
+- Les tests peuvent ajouter de courts commentaires en français pour expliquer les grandes étapes du parcours, sans décrire chaque ligne
 
 ## Scripts utiles
 - `npm test` : compile TypeScript, lance ESLint, puis exécute Playwright
@@ -72,6 +74,7 @@ Exemple :
 
 ## Bonnes pratiques
 - Ne pas mélanger logique de navigation, logique de validation et logique métier dans le test
+- Laisser Playwright fermer automatiquement les pages, contextes et navigateurs en fin de test ; ne pas appeler `browser.close()` dans les tests
 - Créer un page object dédié si une section possède des sélecteurs propres
 - Reutiliser les workflows pour les scénarios multi-pages
 - Quand un test dépend d’un compte, utiliser les credentials de fixture au lieu d’écrire des valeurs dupliquées
