@@ -4,7 +4,7 @@ export class HomePage {
   constructor(private readonly page: Page) {}
 
   async open(): Promise<void> {
-    await this.page.goto('https://www.automationexercise.com/');
+    await this.page.goto('/');
   }
 
   async expectLoaded(): Promise<void> {
