@@ -16,7 +16,7 @@ export class NavigationPage {
   }
 
   async openCart(): Promise<void> {
-    await this.clickLink(/Cart/);
+    await this.page.getByRole('banner').getByRole('link', { name: /Cart/ }).click();
     await expect(this.page).toHaveURL(/\/view_cart\/?$/);
   }
 

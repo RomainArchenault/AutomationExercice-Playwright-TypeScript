@@ -24,9 +24,14 @@ export class ConsentPage {
             return true;
           }
         } catch (error) {
-          if (!(error instanceof Error) || !error.message.includes('Frame was detached')) {
-            throw error;
+          if (
+            error instanceof Error &&
+            (error.message.includes('Frame was detached') ||
+              error.message.includes('Target page, context or browser has been closed'))
+          ) {
+            return false;
           }
+          throw error;
         }
       }
     }

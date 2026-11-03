@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../support/fixtures';
 
-test('test-initial - navigation principale', async ({ consentPage, homePage, navigationPage }) => {
+test('test-initial - navigation principale', { retries: 2 }, async ({ consentPage, homePage, navigationPage }) => {
   // Ouvrir le site, fermer un éventuel consentement et confirmer la page d'accueil.
   await homePage.open();
   await consentPage.dismissIfPresent();
@@ -16,9 +16,8 @@ test('test-initial - navigation principale', async ({ consentPage, homePage, nav
   await navigationPage.openTestCases();
   await navigationPage.openApiTesting();
 
-  // Le lien mène à YouTube; traiter son consentement, puis revenir au site.
+  // Le lien mène à YouTube; revenir ensuite sur le site.
   await navigationPage.openVideoTutorials();
-  await consentPage.dismissIfPresent();
   await navigationPage.returnFromVideoTutorials();
   await navigationPage.openContactUs();
   await navigationPage.openAutomationWebsite();

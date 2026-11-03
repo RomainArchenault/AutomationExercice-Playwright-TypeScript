@@ -10,6 +10,16 @@ type Fixtures = {
 };
 
 export const test = base.extend<Fixtures>({
+  page: async ({ page }, use) => {
+    await page.route((url) => {
+      const hostname = url.hostname.toLowerCase();
+      const isAdHost = /(^|\.)(googleads|googlesyndication|doubleclick|googletagservices|googletagmanager|adservice)\./i.test(hostname);
+      const isGoogleAdPath = /(^|\.)google\.[a-z.]+$/i.test(hostname) && /\/(?:pagead|ads|adsid|adview)\//i.test(url.pathname);
+
+      return isAdHost || isGoogleAdPath;
+    }, (route) => route.abort());
+    await use(page);
+  },
   consentPage: async ({ page }, use) => {
     await use(new ConsentPage(page));
   },
